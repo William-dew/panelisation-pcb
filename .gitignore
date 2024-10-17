@@ -1,7 +1,33 @@
-# .gitignore
+# Environnements virtuels
 env/
+venv/
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
+
+# Fichiers de log
 *.log
+
+# Dossiers de distribution
 dist/
 build/
+
+# Fichiers de configuration de l'IDE
+.vscode/
+.idea/
+
+# fichiers de test
+*.egg-info/
+*.egg
+
+# Configuration de l'éditeur
+*.swp
+*.swo
+*.sublime-workspace
+*.sublime-project
+
+# D'autres fichiers à ignorer
+*.DS_Store
+*.tmp
+
