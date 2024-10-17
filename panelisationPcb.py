@@ -518,7 +518,7 @@ class MainWindow(QMainWindow):
             ax.set_xlim(0, panneau.largeur_totale)
             ax.set_ylim(0, panneau.hauteur_totale)
             ax.set_aspect('equal', adjustable='box')
-            ax.set_title(f"Panneau {idx +1} : {panneau.largeur_totale} x {panneau.hauteur_totale} : x{placement.nombre_pcb} PCB")
+            ax.set_title(f"Format {idx +1} : {panneau.largeur_totale} x {panneau.hauteur_totale} : x{placement.nombre_pcb} PCB")
             ax.axis('off')
 
         # Rafraîchir le canvas
