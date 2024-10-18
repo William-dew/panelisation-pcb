@@ -1,3 +1,4 @@
-PCB Panel Placement Optimization
+# PCB Panel Placement Optimization
 
-![image](https://github.com/user-attachments/assets/6e69994a-a1a3-4eef-9254-64f09e396956)
+![image](https://github.com/user-attachments/assets/dbf5fc49-7b73-4ff4-8c7d-dce2d989adc2)
+
