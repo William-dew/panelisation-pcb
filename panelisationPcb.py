@@ -10,6 +10,9 @@ from PyQt5.QtGui import QFont
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
+from PyQt5.QtWidgets import QMessageBox
+from license_validator import LicenseValidator
+
 
 class RectanglePCB:
     """
@@ -235,6 +238,7 @@ class MainWindow(QMainWindow):
     """
     Classe principale de l'application PyQt5.
     """
+
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Panélisation PCB | William-Dew")
@@ -603,6 +607,7 @@ class MainWindow(QMainWindow):
 # Exécution de l'application
 if __name__ == "__main__":
     app = QApplication(sys.argv)
+    LicenseValidator.verifier_licence()    
     window = MainWindow()
     window.show()
     sys.exit(app.exec_())

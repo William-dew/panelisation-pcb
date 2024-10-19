@@ -30,4 +30,5 @@ build/
 # D'autres fichiers à ignorer
 *.DS_Store
 *.tmp
+*.sh
 
