@@ -4,7 +4,7 @@ from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtWidgets import (
     QApplication, QMainWindow, QLabel, QLineEdit, QPushButton,
     QVBoxLayout, QHBoxLayout, QWidget, QGroupBox, QMessageBox, QTableWidget,
-    QTableWidgetItem, QHeaderView, QCheckBox
+    QTableWidgetItem, QHeaderView, QCheckBox, QProgressBar
 )
 from PyQt5.QtGui import QFont
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg
@@ -528,11 +528,12 @@ class MainWindow(QMainWindow):
         # Rafraîchir le canvas
         self.canvas.draw()
 
+    from PyQt5.QtWidgets import QProgressBar
+
     def afficher_recapitulatif(self):
         """
-        Affiche les résultats dans un tableau.
+        Affiche les résultats dans un tableau avec des barres de progression.
         """
-        # Configuration du tableau
         columns = [
             'Panneau',
             'Dimensions Totales',
@@ -540,40 +541,48 @@ class MainWindow(QMainWindow):
             'PCB par Panneau',
             'Remplissage (%)',
             'Panneaux Nécessaires',
-            'Quantité Produite'  # Nouvelle colonne ajoutée
+            'Quantité Produite'
         ]
         self.table_widget.setRowCount(len(self.resultats))
         self.table_widget.setColumnCount(len(columns))
         self.table_widget.setHorizontalHeaderLabels(columns)
         self.table_widget.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
 
-        # Désactiver les barres de défilement
-        self.table_widget.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
-        self.table_widget.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
-
-        # Remplir le tableau avec les résultats
         for row, result in enumerate(self.resultats):
             self.table_widget.setItem(row, 0, QTableWidgetItem(str(result['panneau'])))
             self.table_widget.setItem(row, 1, QTableWidgetItem(result['dimensions_totales']))
             self.table_widget.setItem(row, 2, QTableWidgetItem(result['dimensions_utilisables']))
             self.table_widget.setItem(row, 3, QTableWidgetItem(str(result['nombre_pcb'])))
-            self.table_widget.setItem(row, 4, QTableWidgetItem(f"{result['pourcentage_remplissage']:.2f}"))
+            
+            # Ajouter une barre de progression pour le remplissage
+            remplissage = result['pourcentage_remplissage']
+            progress_bar = QProgressBar()
+            progress_bar.setValue(int(remplissage))
+            progress_bar.setAlignment(QtCore.Qt.AlignCenter)
+            if remplissage >= 75:
+                progress_bar.setStyleSheet("QProgressBar::chunk { background-color: green; }")
+            elif 60 <= remplissage < 75:
+                progress_bar.setStyleSheet("QProgressBar::chunk { background-color: yellow; }")
+            else:
+                progress_bar.setStyleSheet("QProgressBar::chunk { background-color: red; }")
+            self.table_widget.setCellWidget(row, 4, progress_bar)
+            
             self.table_widget.setItem(row, 5, QTableWidgetItem(str(result['nombre_panneaux_necessaires'])))
-            self.table_widget.setItem(row, 6, QTableWidgetItem(str(result['quantite_produite'])))  # Nouvelle ligne ajoutée
+            self.table_widget.setItem(row, 6, QTableWidgetItem(str(result['quantite_produite'])))
+
+        
 
         # Ajuster la taille des lignes
         row_height = 25  # Hauteur par défaut pour chaque ligne, ajustez si nécessaire
         self.table_widget.verticalHeader().setDefaultSectionSize(row_height)
         self.table_widget.resizeRowsToContents()
 
-        # Calculer la hauteur totale du tableau
-        header_height = self.table_widget.horizontalHeader().height()
-        total_row_height = row_height * self.table_widget.rowCount()
-        total_padding = 4  # Ajustez si nécessaire pour les bordures/marges
-        total_height = header_height + 180 + total_padding
+        
+        total_height = 200
 
         # Définir la hauteur fixe du tableau
         self.table_widget.setFixedHeight(total_height)
+
 
     def nouvelle_configuration(self):
         """
