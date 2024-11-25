@@ -1,6 +1,6 @@
 import sys
 from math import floor, ceil
-from PyQt5 import QtCore, QtWidgets
+from PyQt5 import QtCore
 from PyQt5.QtWidgets import (
     QApplication, QMainWindow, QLabel, QLineEdit, QPushButton,
     QVBoxLayout, QHBoxLayout, QWidget, QGroupBox, QMessageBox, QTableWidget,
