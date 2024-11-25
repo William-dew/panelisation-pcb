@@ -388,16 +388,7 @@ class MainWindow(QMainWindow):
             panneau_dimensions_layout.addWidget(hauteur_input)
             panneau_dimensions_layout.addWidget(QLabel("mm"))
 
-        # Bouton pour lancer le calcul
-        calculer_button = QPushButton("Calculer")
-        calculer_button.clicked.connect(self.calculer_et_visualiser)
-        input_layout.addWidget(calculer_button)
-
-        # Bouton pour réinitialiser la configuration
-        reset_button = QPushButton("Nouvelle Configuration")
-        reset_button.clicked.connect(self.nouvelle_configuration)
-        input_layout.addWidget(reset_button)
-
+        
         # Widget pour le canvas Matplotlib
         self.canvas = MplCanvas(width=15, height=85, dpi=100)  # Dimensions ajustées
         right_layout.addWidget(self.canvas)
@@ -410,6 +401,32 @@ class MainWindow(QMainWindow):
         font = QFont()
         font.setPointSize(10)
         self.setFont(font)
+
+        # Dans votre méthode init_ui, après la création des widgets
+
+        # Bouton pour lancer le calcul
+        calculer_button = QPushButton("Calculer")
+        calculer_button.clicked.connect(self.calculer_et_visualiser)
+        calculer_button.setDefault(True)  # Définir le bouton comme par défaut
+        input_layout.addWidget(calculer_button)
+
+        # Bouton pour réinitialiser la configuration
+        reset_button = QPushButton("Nouvelle Configuration")
+        reset_button.clicked.connect(self.nouvelle_configuration)
+        input_layout.addWidget(reset_button)
+
+        # Connecter returnPressed des champs de saisie au clic du bouton calculer
+        self.largeur_pcb_input.returnPressed.connect(calculer_button.click)
+        self.hauteur_pcb_input.returnPressed.connect(calculer_button.click)
+        self.espacement_input.returnPressed.connect(calculer_button.click)
+        self.nombre_pcb_input.returnPressed.connect(calculer_button.click)
+        self.pourcentage_surlancement_input.returnPressed.connect(calculer_button.click)
+        self.bordure_input.returnPressed.connect(calculer_button.click)
+
+        for largeur_input, hauteur_input in zip(self.panneaux_largeurs_inputs, self.panneaux_hauteurs_inputs):
+            largeur_input.returnPressed.connect(calculer_button.click)
+            hauteur_input.returnPressed.connect(calculer_button.click)
+
 
     def calculer_et_visualiser(self):
         """

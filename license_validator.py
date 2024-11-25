@@ -6,7 +6,7 @@ class LicenseValidator:
     """
     Classe pour vérifier la date d'expiration de la licence.
     """
-    DATE_EXPIRATION = "2024-12-31"
+    DATE_EXPIRATION = "2025-02-01"
 
     @staticmethod
     def verifier_licence():
